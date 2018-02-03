@@ -1,39 +1,47 @@
-var a = 1;
-var b = 7;
-var c =5;
 
-var najmanji;
-var srednji;
-var najveci;
+var min;
+var mid;
+var max;
 
-if (a < b && a < c) {
-    najmanji = a;
-    if (b > c){
-        srednji = c;
-        najveci = b;
+
+function sortNumbers () {
+    var a = document.getElementsByName("num-one")[0].value;
+    var b = document.getElementsByName("num-two")[0].value;
+    var c = document.getElementsByName("num-three")[0].value;
+
+    if (a < b && a < c) {
+        min = a;
+        if (b > c){
+            mid = c;
+            max = b;
+        } else {
+            mid = b;
+            max = c;
+        }
+
+    } else if ( a > b && a > c) {
+        max = a;
+        if (b < c) {
+            min = b;
+            mid = c;        
+        } else {
+            min = c;
+            mid = b;  
+        }
+        
+    } else if (b < c) {
+        max = c;
+        mid = a;
+        min = b;
     } else {
-        srednji = b;
-        najveci = c;
+        max = b;
+        mid = a;
+        min = c;
     }
 
-} else if ( a > b && a > c) {
-    najveci= a;
-    if (b < c) {
-        najmanji = b;
-        srednji = c;        
-    } else {
-        najmanji = c;
-        srednji = b;  
-    }
-    
-} else if (b < c) {
-    najveci = c;
-    srednji= a;
-    najmanji = b;
-} else {
-    najveci = b;
-    srednji= a;
-    najmanji = c;
+    var result = document.getElementById("result");
+    result.innerHTML = min + "," + mid + "," + max;
 }
 
-console.log(najmanji, srednji, najveci); 
+
+//console.log(min, mid, max); 
