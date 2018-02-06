@@ -50,3 +50,28 @@ for(i in x){
 console.log(typeof result);
 
 
+
+//stampanje zvezdica
+var n = 5;
+var s="*";
+var space = " ";
+
+
+for (r=0; r <= n - 1; r++){
+    if (r == 0 || r == n-1) {
+        var line = "";
+        for (var i = 0; i < n; i++) {
+            line = line + s;
+        }
+        console.log(line);
+    } else {
+        var line = ""
+        line = line + s;
+        for ( var i = 0; i < n-2; i++) {
+            line = line + space;
+        }
+        line = line + s;
+        console.log(line);
+    }
+   
+}
