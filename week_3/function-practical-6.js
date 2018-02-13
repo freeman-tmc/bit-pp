@@ -60,7 +60,6 @@ var multiplication = function (n) {
 multiplication(12);
 // 6
 var celsiusToF = function (t) {
-    'use strict';
     var f = (t * 1.8) + 32;
     return f;
 }
@@ -79,7 +78,6 @@ console.log(median([1, 2, 3, 4, 5, 6, 7]));
 // 11
 
 var firstLast = function (a) {
-    "use strict";
     var medianIndex = 0;
     if (a.length % 2 == 1) {
         medianIndex = (a.length - 1) / 2;
@@ -93,7 +91,6 @@ console.log(firstLast([1, 2, 3, 4, 5, 6]));
 
 // 14
 var bmi = function (w, h) {
-    "use strict";
     result = w / (h * h);
 
 if (result < 15) {
@@ -115,64 +112,4 @@ else if (result > 40 ) {
     console.log("Morbidly");
 }
 }
-
-//15
-
-var printRect = function(a) {
-    
-    var longestElem = a[0].length;
-    //find longest element in array
-    for (var i = 1; i < a.length; i++) {
-        if(a[i].length > longestElem) {
-            longestElem = a[i].length;
-        }
-    }
-    //number of columns and rows
-    var numOfCols = longestElem + 4;
-    var numOfRows = a.length + 2;
-
-    //first and last line
-    var firstLine = '';
-    for(i = 0; i < numOfCols; i++ ) {
-        firstLine += '*';
-    }
-
-    var line = '';
- /*   for(var j = 0; j < numOfCols; j++) {
-        if(j == 0 || j == numOfCols - 1) {
-            line += '*';
-        } else if (j == 1 || j == numOfCols - 2) {
-            line += ' ';
-        } else {
-
-            for(var k = 0, m = 0; m < numOfCols - 4; k++, m++) {
-                
-                if (k < a[0].length ) {
-                    line += a[0][k];
-                } else {
-                    line += ' ';
-                }
-            }
-        }
-        console.log(line);
-    } */
-
-    for(var j = 0; j < a.length; j++){    //adding spaces to shorter words
-        if(a[j].length < longestElem){
-            var space = longestElem - a[j].length;
-            for(var k = 0; k < space; k++){
-                a[j] += " ";
-            }
-        }
-    }
-
-    for(var m = 0; m < a.length; m++){       // defining lines (with words)
-        line += "* " + a[m] + " *" + "\n";
-    }
-
-    var result = firstLine + "\n" + line + firstLine;
-    console.log(result);
-}
-printRect(["Hello", "World", "in", "a", "frame"]);
-
 
