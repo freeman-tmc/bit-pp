@@ -114,17 +114,22 @@ var filter = function(arr, func, el) {
 
 //---------------------------------------------------------6
 
+var products = [];
 
-function Product(name, price) {
-    this.name = name;
-    this.price = price;
+var populateArr = function(name, price) {
+    var prod = new (function (name, price) {
+        this.name = name;
+        this.price = price;
+    })(name, price);
+    products.push(prod);
 }
 
-var product1 = new Product('milk', 101 );
-var product2 = new Product('sugar', 150);
-var product3 = new Product('apples', 50);
+populateArr('milk', 101 );
+populateArr('sugar', 150);
+populateArr('apples', 50);
 
-var products = [product1, product2, product3];
+console.log(products);
+
 
 // b
 var totalPrice = function(arr) {
