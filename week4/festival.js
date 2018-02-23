@@ -64,8 +64,8 @@
     }
 
     // creating program objects
-    var prog1 = new createProgram("2018 04 13");
-    var prog2 = new createProgram("2018 04 14");
+    var prog1 = createProgram("2018 04 13");
+    var prog2 = createProgram("2018 04 14");
 
     // adding movies to programs
     prog1.addMovie(movie1);
