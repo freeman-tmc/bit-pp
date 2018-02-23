@@ -10,14 +10,15 @@
             return this.name + " " + this.surname;
         }
     }
+    /////////////////////////////////////////////////
     function Seat(number, category) {
-        // check if number already assigned
-        this.number = number || Math.floor(Math.random() * 90 + 10);
+        this.number = number 
         this.category = category || "e";
         this.getData = function () {
             return this.number + ", " + this.category.toUpperCase();
         }
     }
+    ///////////////////////////////////////////////////////
     function Passenger(name, surname, number, category) {
         this.person = new Person(name, surname);
         this.seat = new Seat(number, category);
@@ -26,6 +27,7 @@
             return passengerData;
         }
     }
+    ///////////////////////////////////////////////////
     function Flight(relation, date) {
         this.relation = relation;
         this.date = new Date(date);
@@ -42,7 +44,7 @@
             this.listOfPassengers.push(passenger)
         }
     }
-
+    ///////////////////////////////////////////////////
     function Airport() {
         this.name = "Nikola Tesla";
         this.listOfFlights = [];
@@ -71,20 +73,55 @@
         return newFlight;
     }
 
-    function createPassenger(name, surname, number, category) {
+
+    ///////////////////////////////////////////////////////////////
+
+    var takenSeatNumbers = [];
+
+    function assignSeatNumber(num) {
+        if(takenSeatNumbers.length > 100) {
+            console.log('No more empty seats!');
+        } else {
+            if(num == undefined) {
+                do {
+                num = Math.floor(Math.random() * 90 + 10); 
+                } while (takenSeatNumbers.indexOf(num) != -1);
+                takenSeatNumbers.push(num);
+                return num;
+            } else {
+                if(takenSeatNumbers.indexOf(num) == -1) {
+                    takenSeatNumbers.push(num);
+                    return num;
+                } else {
+                    console.log('Seat already taken!')
+                }
+            }
+            console.log('done');
+        }
+    }
+
+    console.log(assignSeatNumber(5));
+
+
+    //////////////////////////////////////////////////////////////////////
+    
+    function createPassenger(name, surname, number, category, checkFunc) {
+        number = checkFunc(number);
         var newPassenger = new Passenger(name, surname, number, category);
         return newPassenger;
     }
+    /////////////////////////////////////////////////////////////
+
 
     var airport = new Airport();
 
     var flight1 = createFlight("Belgrade - New York", "Oct 25 2017");
     var flight2 = createFlight("Barcelona - Belgrade", "Nov 11 2017");
 
-    var passenger1 = createPassenger("John", "Snow", 1, "b");
-    var passenger2 = createPassenger("Cersei", "Lannister", 2, "b");
-    var passenger3 = createPassenger("Daenerys", "Targaryen", 14);
-    var passenger4 = createPassenger("Tyrion", "Lannister");
+    var passenger1 = createPassenger("John", "Snow", 1, "b", assignSeatNumber);
+    var passenger2 = createPassenger("Cersei", "Lannister", 2, "b", assignSeatNumber);
+    var passenger3 = createPassenger("Daenerys", "Targaryen", 14, undefined ,assignSeatNumber);
+    var passenger4 = createPassenger("Tyrion", "Lannister", undefined, undefined, assignSeatNumber);
 
     flight1.addPassenger(passenger1);
     flight1.addPassenger(passenger2);
@@ -101,3 +138,5 @@
 
 
 })();
+
+
