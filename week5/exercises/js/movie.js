@@ -19,16 +19,16 @@ Movie.prototype.genreAcronym = function () {
 //lista filmove
 
 var allMovies = [];
- // putting movies in list
- function populateMovieSelect(movie) {
+// putting movies in list
+function populateMovieSelect(movie) {
     var movieSelect = '';
     movieSelect = '<option value="' + movie.movieTitle + '">' + movie.movieTitle + '</option>\n';
     var movieSelector = document.querySelector('#movie-selector');
     movieSelector.innerHTML += movieSelect;
 }
 
- // putting program in list
- function populateProgramSelect(program) {
+// putting program in list
+function populateProgramSelect(program) {
     var programSelect = '';
     programSelect = '<option value="' + program.date + '">' + program.date + '</option>\n';
     var programSelector = document.querySelector('#program-selector');
@@ -50,65 +50,69 @@ document.querySelector('.create-movie').addEventListener('click', function (even
 
     //console.log(movieTitle,movie Length,movieGenre);
 
-   
+
 
     //2) Validacija
-    var errors = {
-        0: 'OK',
-        1: 'Please insert title!',
-        2: 'Please check the movie length!',
-        3: 'Please select the movie genre!'
+    var ERROR = {
+        OK: 'OK',
+        INSERT_TITLE: 'Please insert title!',
+        MOVIE_LENGTH: 'Please check the movie length!',
+        SELECT_GENRE: 'Please select the movie genre!'
     };
     //treba da varaca string
     function validation(movieTitle, movieLength, movieGenre) {
         movieLength = parseInt(movieLength);
-        var errorMessage = document.querySelector('#error');
+        
         if (movieTitle == '') {
-            errorMessage.innerHTML = errors['1'];
+            return ERROR.MOVIE_LENGTH;
         } else {
             if (isNaN(movieLength) || movieLength <= 0) {
-                errorMessage.innerHTML = errors['2'];
+                return ERROR.MOVIE_LENGTH;
             } else {
                 if (movieGenre == '-') {
-                    errorMessage.innerHTML = errors['3'];
+                    return ERROR.SELECT_GENRE;
                 } else {
-                    errorMessage.innerHTML = '';
-                    //3) napravimo objekat koji predstavlja film
-
-                    var movie = new Movie(movieTitle, movieLength, movieGenre);
-
-
-                    //4) dodajemo film u listu filmova (na nivou aplikacije)
-                    allMovies.push(movie);
-                    // azuriramo interfejs - prikazujemo novi film
-                    var p = document.createElement('p');
-                    p.innerHTML = movie.showData();
-                    var list = document.querySelector('#list').appendChild(p);
-                    document.querySelector('#movie-title').value = '';
-                    document.querySelector('#movie-length').value = '';
-                    movieGenreSelect.selectedIndex = 0;
-                    // azuriramo interfejs - azuriramo duzinu
-                    var totalLength = 0;
-                    for (var i = 0; i < allMovies.length; i++) {
-                        totalLength += allMovies[i].movieLength;
-                    }
-                    var pLength = document.querySelector('#total-length');
-                    pLength.innerHTML = 'All movies length: ' + totalLength;
-
-                    
-
-                    populateMovieSelect(movie);
-
-
-
-
+                    return ERROR.OK;
                 }
             }
         }
     }
+    var showError = document.querySelector('#error');
+    var errorMessage = validation(movieTitle, movieLength, movieGenre);
+    if (errorMessage != 'OK') {
+        //display error
+        showError.innerHTML = errorMessage;
+    } else {
+        //3) napravimo objekat koji predstavlja film
+        showError.innerHTML = '';
+        var movie = new Movie(movieTitle, movieLength, movieGenre);
 
-    validation(movieTitle, movieLength, movieGenre);
 
+        //4) dodajemo film u listu filmova (na nivou aplikacije)
+        allMovies.push(movie);
+        // azuriramo interfejs - prikazujemo novi film
+        var p = document.createElement('p');
+        p.innerHTML = movie.showData();
+        var list = document.querySelector('#list').appendChild(p);
+        document.querySelector('#movie-title').value = '';
+        document.querySelector('#movie-length').value = '';
+        movieGenreSelect.selectedIndex = 0;
+        // azuriramo interfejs - azuriramo duzinu
+        var totalLength = 0;
+        for (var i = 0; i < allMovies.length; i++) {
+            totalLength += allMovies[i].movieLength;
+        }
+        var pLength = document.querySelector('#total-length');
+        pLength.innerHTML = 'All movies length: ' + totalLength;
+
+
+
+        populateMovieSelect(movie);
+
+
+
+
+    }
 });
 
 
@@ -139,8 +143,8 @@ Program.prototype.addMovie = function (movie) {
 document.querySelector('#create-program').addEventListener('click', createProgram);
 
 function createProgram() {
-var programInput = document.querySelector('#program-input');
-var programName = programInput.value;
-var program = new Program(programName);
-populateProgramSelect(program);
+    var programInput = document.querySelector('#program-input');
+    var programName = programInput.value;
+    var program = new Program(programName);
+    populateProgramSelect(program);
 }
