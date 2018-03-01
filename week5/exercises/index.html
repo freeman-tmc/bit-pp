@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    
+</head>
+
+<body>
+    <h1>Movie festival</h1>
+    <fieldset>
+        <fieldset>
+            <legend>Movie</legend>
+            <div>
+                <div>
+                    <label>
+                        Title
+                        <br>
+                        <input id="movie-title" type="text" placeholder="Title">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Length (min)
+                        <br>
+                        <input id="movie-length" type="number" placeholder="Length">
+                    </label>
+                </div>
+                <select id="genre-selector" name="genre" id="genre">
+                    <option value="-">-</option>
+                    <option value="drama">Drama</option>
+                    <option value="action">Action</option>
+                    <option value="horror">Horror</option>
+                    <option value="commedy">Commedy</option>
+                    <option value="advanture">Advanture</option>
+                </select>
+                <button class="create-movie">Create movie</button>
+                <div id="list">
+
+                </div>
+                <p id="total-length">All movies length: </p>
+                <p id="error"></p>
+            </div>
+           
+        </fieldset>
+
+        <fieldset>
+            <legend>Program</legend>
+            <label>
+                Date
+                <br>
+                <input id="program-input">
+            </label>
+            <button id="create-program">Create program</button>
+            <div></div>
+            <label>Movie
+                <select id="movie-selector">
+                    <option value="-">-</option>
+                </select>
+            </label>
+            <label>Program
+                <select id="program-selector">
+                    <option value="-">-</option>
+
+                </select>
+            </label>
+
+            <button class="add-movie">Add movie to program</button>
+        </fieldset>
+    </fieldset>
+    <script src="./js/movie.js"></script>
+</body>
+
+</html>
