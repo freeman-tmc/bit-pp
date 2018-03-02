@@ -1,9 +1,9 @@
-// logika aplikacije
+//// logika aplikacije
 // objekat koji moze da predstavlja film
 
 function Movie(title, length, genre) {
     this.movieTitle = title;
-    this.movieLength = length;
+    this.movieLength = parseInt(length);
     this.genre = genre;
 }
 
@@ -16,9 +16,46 @@ Movie.prototype.genreAcronym = function () {
     return fullGenre[0] + fullGenre[fullGenre.length - 1];
 }
 
-//lista filmove
-
+//list of all movies
 var allMovies = [];
+
+//objekat koji prdstavlja program
+function Program(date) {
+    this.date = date;
+    this.movieLIst = [];
+}
+
+Program.prototype.showData = function () {
+    return this.date + ', ' + this.movieLIst.length + ' movies, ' + this.duration() + 'min';
+};
+
+Program.prototype.addMovie = function (movie) {
+    this.movieLIst.push(movie);
+};
+
+Program.prototype.duration = function () {
+    var duration = 0;
+    for(el in this.movieLIst) {
+        duration += this.movieLIst[el].movieLength;
+    }
+    console.log(typeof(duration));
+    return duration;
+};
+
+//list of all programs
+var allPrograms = [];
+
+//error object
+var ERROR = {
+    OK: 'OK',
+    INSERT_TITLE: 'Please insert title!',
+    MOVIE_LENGTH: 'Please check the movie length!',
+    SELECT_GENRE: 'Please select the movie genre!'
+};
+
+
+
+
 // putting movies in list
 function populateMovieSelect(movie) {
     var movieSelect = '';
@@ -35,8 +72,8 @@ function populateProgramSelect(program) {
     programSelector.innerHTML += programSelect;
 }
 
-
 // funkcionalnosti interfejsa
+
 //id movie funkcionalnost
 document.querySelector('.create-movie').addEventListener('click', function (event) {
 
@@ -48,21 +85,12 @@ document.querySelector('.create-movie').addEventListener('click', function (even
     var movieGenreIndex = movieGenreSelect.selectedIndex;
     var movieGenre = movieGenreSelect.options[movieGenreIndex].value;
 
-    //console.log(movieTitle,movie Length,movieGenre);
-
-
 
     //2) Validacija
-    var ERROR = {
-        OK: 'OK',
-        INSERT_TITLE: 'Please insert title!',
-        MOVIE_LENGTH: 'Please check the movie length!',
-        SELECT_GENRE: 'Please select the movie genre!'
-    };
+   
     //treba da varaca string
     function validation(movieTitle, movieLength, movieGenre) {
-        movieLength = parseInt(movieLength);
-        
+
         if (movieTitle == '') {
             return ERROR.MOVIE_LENGTH;
         } else {
@@ -77,6 +105,7 @@ document.querySelector('.create-movie').addEventListener('click', function (even
             }
         }
     }
+
     var showError = document.querySelector('#error');
     var errorMessage = validation(movieTitle, movieLength, movieGenre);
     if (errorMessage != 'OK') {
@@ -93,7 +122,7 @@ document.querySelector('.create-movie').addEventListener('click', function (even
         // azuriramo interfejs - prikazujemo novi film
         var p = document.createElement('p');
         p.innerHTML = movie.showData();
-        var list = document.querySelector('#list').appendChild(p);
+        var listOfMovies = document.querySelector('#movie-list').appendChild(p);
         document.querySelector('#movie-title').value = '';
         document.querySelector('#movie-length').value = '';
         movieGenreSelect.selectedIndex = 0;
@@ -106,45 +135,79 @@ document.querySelector('.create-movie').addEventListener('click', function (even
         pLength.innerHTML = 'All movies length: ' + totalLength;
 
 
-
         populateMovieSelect(movie);
-
-
-
 
     }
 });
 
-
-
 ///////////////////////////
 
-//objekat koji prdstavlja program
 
 
-//funkcionalnost interfejsa create program movie
-//funkcionalnost interfejsa add movie to program
-
-function Program(date) {
-    this.date = date;
-    this.movieLIst = [];
-    this.duration = 0;
-}
-
-Program.prototype.getData = function () {
-    return this.date + this.movieLIst.length + this.duration;
-}
-
-Program.prototype.addMovie = function (movie) {
-    this.movieLIst.push(movie);
-}
 
 // selektovanje dugmeta create program i dodavanje event listenera koji poziva f-ju create program
-document.querySelector('#create-program').addEventListener('click', createProgram);
+var createProgramButton = document.querySelector('#create-program');
+createProgramButton.addEventListener('click', createProgram);
+
 
 function createProgram() {
     var programInput = document.querySelector('#program-input');
     var programName = programInput.value;
     var program = new Program(programName);
+    allPrograms.push(program);
     populateProgramSelect(program);
+    programInput.value = '';
+
 }
+
+
+var selectedProgram = document.querySelector('#program-selector');
+var selectedMovie = document.querySelector('#movie-selector');
+
+function addMovieToProgram() {
+
+    var currentMovie;
+    for (var i = 0; i < allMovies.length; i++) {
+        if (allMovies[i].movieTitle == selectedMovie.value) {
+            currentMovie = allMovies[i];
+            break;
+        }
+    }
+
+    for (i = 0; i < allPrograms.length; i++) {
+        if (allPrograms[i].date == selectedProgram.value) {
+            allPrograms[i].movieLIst.push(currentMovie);
+            break;
+        }
+    }
+
+    printProgramInfo(allPrograms[i]);
+    var fullProgramList = document.querySelector('#full-program-list');
+    var fullProgramListText = '';
+
+    fullProgramListText = allPrograms[i].showData();
+
+
+    var k = document.createElement('p');
+    k.innerHTML = fullProgramListText;
+    fullProgramList.appendChild(k);
+
+
+}
+
+// adding movie to program
+
+var addMovieButton = document.querySelector('#add-movie');
+addMovieButton.addEventListener('click', addMovieToProgram);
+
+
+//printing all program info to page
+
+    var p = document.createElement('p');
+    p.innerHTML = program.showData();
+    var listOfPrograms = document.querySelector('#program-list');
+    listOfPrograms.appendChild(p);
+
+
+
+

@@ -39,7 +39,7 @@
                     <option value="advanture">Advanture</option>
                 </select>
                 <button class="create-movie">Create movie</button>
-                <div id="list">
+                <div id="movie-list">
 
                 </div>
                 <p id="total-length">All movies length: </p>
@@ -53,10 +53,10 @@
             <label>
                 Date
                 <br>
-                <input id="program-input">
+                <input id="program-input" placeholder="dd/mm/yy">
             </label>
             <button id="create-program">Create program</button>
-            <div></div>
+            <div id="program-list"></div>
             <label>Movie
                 <select id="movie-selector">
                     <option value="-">-</option>
@@ -69,7 +69,7 @@
                 </select>
             </label>
 
-            <button class="add-movie">Add movie to program</button>
+            <button id="add-movie">Add movie to program</button>
         </fieldset>
     </fieldset>
     <script src="./js/movie.js"></script>
