@@ -35,15 +35,15 @@ Program.prototype.addMovie = function (movie) {
 
 Program.prototype.duration = function () {
     var duration = 0;
-    for(el in this.movieLIst) {
+    for (el in this.movieLIst) {
         duration += this.movieLIst[el].movieLength;
     }
-    console.log(typeof(duration));
     return duration;
 };
 
 //list of all programs
 var allPrograms = [];
+
 
 //error object
 var ERROR = {
@@ -53,160 +53,177 @@ var ERROR = {
     SELECT_GENRE: 'Please select the movie genre!'
 };
 
+//input fields object
+var inputFields = {
+    movieTitle: document.querySelector('#movie-title'),
+    movieLength: document.querySelector('#movie-length'),
+    movieGenreSelect: document.querySelector('#genre-selector'),
+    programInput: document.querySelector('#program-input'),
+    movieSelector: document.querySelector('#movie-selector'),
+    programSelector: document.querySelector('#program-selector') 
+};
 
+//buttons object
+var actionButtons = {
+    createMovieButton: document.querySelector('.create-movie'),
+    createProgramButton: document.querySelector('#create-program'),
+    addMovieButton: document.querySelector('#add-movie')
+};
+
+//interface update fields
+var updateFields = {
+    pLength: document.querySelector('#total-length'),
+    listOfMovies: document.querySelector('#movie-list'),
+    fullProgramList: document.querySelector('#program-list'),
+    showError: document.querySelector('#error')
+};
 
 
 // putting movies in list
 function populateMovieSelect(movie) {
     var movieSelect = '';
     movieSelect = '<option value="' + movie.movieTitle + '">' + movie.movieTitle + '</option>\n';
-    var movieSelector = document.querySelector('#movie-selector');
-    movieSelector.innerHTML += movieSelect;
+    inputFields.movieSelector.innerHTML += movieSelect;
 }
 
 // putting program in list
 function populateProgramSelect(program) {
     var programSelect = '';
     programSelect = '<option value="' + program.date + '">' + program.date + '</option>\n';
-    var programSelector = document.querySelector('#program-selector');
-    programSelector.innerHTML += programSelect;
+    inputFields.programSelector.innerHTML += programSelect;
 }
 
 // funkcionalnosti interfejsa
 
-//id movie funkcionalnost
-document.querySelector('.create-movie').addEventListener('click', function (event) {
+//colects data from movie input fields and returns data as object
+function movieInputColector() {
 
-    //1) procitati unete podatke
-    var movieTitle = document.querySelector('#movie-title').value;
-    var movieLength = document.querySelector('#movie-length').value;
+    var movieTitle = inputFields.movieTitle.value;
+    var movieLength = inputFields.movieLength.value;
     // var movieGenre = document.querySelector('movie-genre').value;
-    var movieGenreSelect = document.querySelector('#genre-selector');
-    var movieGenreIndex = movieGenreSelect.selectedIndex;
-    var movieGenre = movieGenreSelect.options[movieGenreIndex].value;
+    
+    var movieGenreIndex = inputFields.movieGenreSelect.selectedIndex;
+    var movieGenre = inputFields.movieGenreSelect.options[movieGenreIndex].value;
+    //reset input fields
+    inputFields.movieTitle.value = '';
+    inputFields.movieLength.value = '';
+    inputFields.movieGenreSelect.selectedIndex = 0;
 
+    return {
+        movieTitle: movieTitle,
+        movieLength: movieLength,
+        movieGenre: movieGenre
+    }
+}
 
-    //2) Validacija
-   
-    //treba da varaca string
-    function validation(movieTitle, movieLength, movieGenre) {
+//2) Validacija
+function validation(movieInputData, ERROR) {
 
-        if (movieTitle == '') {
+    if (movieInputData.movieTitle == '') {
+        return ERROR.MOVIE_LENGTH;
+    } else {
+        if (isNaN(movieInputData.movieLength) || movieInputData.movieLength <= 0) {
             return ERROR.MOVIE_LENGTH;
         } else {
-            if (isNaN(movieLength) || movieLength <= 0) {
-                return ERROR.MOVIE_LENGTH;
+            if (movieInputData.movieGenre == '-') {
+                return ERROR.SELECT_GENRE;
             } else {
-                if (movieGenre == '-') {
-                    return ERROR.SELECT_GENRE;
-                } else {
-                    return ERROR.OK;
-                }
+                return ERROR.OK;
             }
         }
     }
+}
 
-    var showError = document.querySelector('#error');
-    var errorMessage = validation(movieTitle, movieLength, movieGenre);
+//id movie funkcionalnost
+
+
+function createMovie() {
+
+    var movieInputData = movieInputColector();
+
+    var errorMessage = validation(movieInputData, ERROR);
+
     if (errorMessage != 'OK') {
         //display error
-        showError.innerHTML = errorMessage;
+        updateFields.showError.innerHTML = errorMessage;
     } else {
-        //3) napravimo objekat koji predstavlja film
-        showError.innerHTML = '';
-        var movie = new Movie(movieTitle, movieLength, movieGenre);
-
+        //3) create object that represets movie
+        updateFields.showError.innerHTML = '';
+        var movie = new Movie(movieInputData.movieTitle, movieInputData.movieLength, movieInputData.movieGenre);
 
         //4) dodajemo film u listu filmova (na nivou aplikacije)
         allMovies.push(movie);
         // azuriramo interfejs - prikazujemo novi film
         var p = document.createElement('p');
         p.innerHTML = movie.showData();
-        var listOfMovies = document.querySelector('#movie-list').appendChild(p);
-        document.querySelector('#movie-title').value = '';
-        document.querySelector('#movie-length').value = '';
-        movieGenreSelect.selectedIndex = 0;
+        updateFields.listOfMovies.appendChild(p);
+
         // azuriramo interfejs - azuriramo duzinu
         var totalLength = 0;
         for (var i = 0; i < allMovies.length; i++) {
             totalLength += allMovies[i].movieLength;
         }
-        var pLength = document.querySelector('#total-length');
-        pLength.innerHTML = 'All movies length: ' + totalLength;
-
+        updateFields.pLength.innerHTML = 'All movies length: ' + totalLength;
 
         populateMovieSelect(movie);
 
     }
-});
+}
 
 ///////////////////////////
 
-
-
-
-// selektovanje dugmeta create program i dodavanje event listenera koji poziva f-ju create program
-var createProgramButton = document.querySelector('#create-program');
-createProgramButton.addEventListener('click', createProgram);
-
-
-function createProgram() {
-    var programInput = document.querySelector('#program-input');
-    var programName = programInput.value;
-    var program = new Program(programName);
-    allPrograms.push(program);
-    populateProgramSelect(program);
-    programInput.value = '';
-
+//printing all program info to page
+function printProgramInfo(programList) {
+    var fullProgramListText = '';
+    for (el in programList) {
+        fullProgramListText += '<p>' + programList[el].showData() + '</p>';
+    }
+    updateFields.fullProgramList.innerHTML = fullProgramListText;
 }
 
 
-var selectedProgram = document.querySelector('#program-selector');
-var selectedMovie = document.querySelector('#movie-selector');
+// creating program
+function createProgram() {
+    var programName = inputFields.programInput.value;
+    var program = new Program(programName);
+    allPrograms.push(program);
+    populateProgramSelect(program);
+    inputFields.programInput.value = '';
 
+}
+
+//adding movie to the program
 function addMovieToProgram() {
 
     var currentMovie;
     for (var i = 0; i < allMovies.length; i++) {
-        if (allMovies[i].movieTitle == selectedMovie.value) {
+        if (allMovies[i].movieTitle == inputFields.movieSelector.value) {
             currentMovie = allMovies[i];
             break;
         }
     }
 
     for (i = 0; i < allPrograms.length; i++) {
-        if (allPrograms[i].date == selectedProgram.value) {
+        if (allPrograms[i].date == inputFields.programSelector.value) {
             allPrograms[i].movieLIst.push(currentMovie);
             break;
         }
     }
 
-    printProgramInfo(allPrograms[i]);
-    var fullProgramList = document.querySelector('#full-program-list');
-    var fullProgramListText = '';
-
-    fullProgramListText = allPrograms[i].showData();
-
-
-    var k = document.createElement('p');
-    k.innerHTML = fullProgramListText;
-    fullProgramList.appendChild(k);
-
+    printProgramInfo(allPrograms);
 
 }
 
+//creating program
+actionButtons.createProgramButton.addEventListener('click', createProgram);
+//creating movie
+actionButtons.createMovieButton.addEventListener('click', createMovie);
 // adding movie to program
-
-var addMovieButton = document.querySelector('#add-movie');
-addMovieButton.addEventListener('click', addMovieToProgram);
+actionButtons.addMovieButton.addEventListener('click', addMovieToProgram);
 
 
-//printing all program info to page
 
-    var p = document.createElement('p');
-    p.innerHTML = program.showData();
-    var listOfPrograms = document.querySelector('#program-list');
-    listOfPrograms.appendChild(p);
+
 
 
 
