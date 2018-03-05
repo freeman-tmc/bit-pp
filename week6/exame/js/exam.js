@@ -1,15 +1,17 @@
-function Exam(subject, student, grade){
-    this.subject = subject;
+function Exam(subject, student, grade) {
+    this.subject = subject.getSubjectName();
     this.student = student;
-    this.grade = grade;
+    this.grade = parseInt(grade);
 }
-Exam.prototype.getExamInfo = function(){
-    this.subject + " " + this.student.getStudentData();
+
+Exam.prototype.getExamInfo = function () {
+    return this.subject + " " + this.student.getStudentData();
 }
-Exam.prototype.hasPassed = function(){
-    if(this.grade > 5){
+
+Exam.prototype.hasPassed = function () {
+    if (this.grade > 5) {
         return true;
-    }   else{
+    } else {
         return false;
     }
 }
