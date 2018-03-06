@@ -277,7 +277,3 @@ h2 {
 .unpaid .item-percentage { box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1); }
 .unpaid:hover .item-description { font-weight: 900; }
 
-p {
-    color: red;
-    padding: 20px;
-}

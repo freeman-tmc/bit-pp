@@ -17,12 +17,12 @@
                 <span class="exam-title-month">June</span>
             </div>
 
-            <div class="exam-total">Total students: <span id="total"></span></div>
+            <div class="exam-total">Total students: %count%</div>
 
             <div class="exam-passed clearfix">
                 <div class="exam-passed-text">passed</div>
                 <div class="right">
-                    <div class="exam-passed-count">0</div>
+                    <div class="exam-passed-count">2</div>
                     <div class="exam-passed-percentage">&nbsp;</div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="exam-failed clearfix">
                 <div class="exam-failed-text">failed</div>
                 <div class="right clearfix">
-                    <div class="exam-failed-count">0</div>
+                    <div class="exam-failed-count">2</div>
                     <div class="exam-failed-percentage">50%</div>
                 </div>
             </div>
@@ -46,15 +46,13 @@
                     <option value="spa">SPA</option>
                 </select>
                 <input type="text" class="add-student-name" placeholder="Name surname">
-                <input type="number" class="add-grade" min="5" max="10" step="1" placeholder="Grade">
+                <input type="number" class="add-grade" min="5" max="10" placeholder="Grade">
                 <button class="add-btn">ADD</i>
                 </button>
             </div>
         </div>
-        
 
         <div class="container clearfix">
-            <p></p>
             <div class="passed">
                 <h2 class="passed-title">passed</h2>
 
@@ -95,9 +93,10 @@
         </div>
 
     </div>
-    <script src="js/dataModule.js"></script>
-    <script src="js/UIModule.js"></script>
-    <script src="js/mainModule.js"></script>
+    <script src="js/subject.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/exam.js"></script>
+    <script src="js/form.js"></script>
 
 </body>
 
