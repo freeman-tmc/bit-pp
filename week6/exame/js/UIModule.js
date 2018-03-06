@@ -13,6 +13,8 @@ var UIModule = (function () {
     var passedPercentageBox = document.querySelector('.exam-passed-percentage');
     var totalStudents = document.querySelector('#total');
 
+    var addButton = document.querySelector('.add-btn');
+
 
     function collectData() {
         var formData = {};
@@ -55,20 +57,22 @@ var UIModule = (function () {
         }
     }
 
-    function updateStatisticsBox(examFailedList, examPassedList) {  // provuci kroz objekte
-        var totalExams = examFailedList.length + examPassedList.length;
-        failedStatisticsBox.innerHTML = examFailedList.length;
-        passedStatisticsBox.innerHTML = examPassedList.length;
-        passedPercentageBox.innerHTML = parseInt((examPassedList.length / totalExams) * 100) + '%';
-        failedPercentageBox.innerHTML = parseInt((examFailedList.length / totalExams) * 100) + '%';
-        totalStudents.innerHTML = totalExams;
+    //uses statsModule 
+    function updateStatisticsBox(statsObject) { 
+
+        failedStatisticsBox.innerHTML = statsObject.getNumOfFailedExams();
+        passedStatisticsBox.innerHTML = statsObject.getNumOfPassedExams();
+        passedPercentageBox.innerHTML = statsObject.getPercentOfPassedExams();
+        failedPercentageBox.innerHTML = statsObject.getPercentOfFailedExams();
+        totalStudents.innerHTML = statsObject.getTotalNumOfExams();
     }
 
     return {
         collectData: collectData,
         validation: validation,
         updateExamBox: updateExamBox,
-        updateStatisticsBox: updateStatisticsBox
+        updateStatisticsBox: updateStatisticsBox,
+        addButton: addButton
     }
 
 })();

@@ -4,14 +4,6 @@ var mainModule = (function () {
     var examPassedList = [];
     
 
-    function updateLists(exam) {
-        if (exam.hasPassed() == true) {
-            examPassedList.push(exam);
-        } else {
-            examFailedList.push(exam);
-        }
-    }
-
     function evaluate() {
         var data = UIModule.collectData();
     
@@ -22,14 +14,13 @@ var mainModule = (function () {
         }
 
         var exam = dataModule.createExam(data.subject, data.name, data.surname, data.grade);
-        updateLists(exam);
+        statsModule.updateLists(exam);
 
         UIModule.updateExamBox(exam);
-        UIModule.updateStatisticsBox(examFailedList, examPassedList);
+        UIModule.updateStatisticsBox(statsModule);
     }
 
-    var addButton = document.querySelector('.add-btn');  // prebaciti u UIModule
-    addButton.addEventListener('click', evaluate);
+    UIModule.addButton.addEventListener('click', evaluate);
 
 
-})(dataModule, UIModule);
+})(dataModule, UIModule, statsModule);
