@@ -38,4 +38,7 @@ ja.learnedNewLanguage('c++');
 
 ja.learnedNewLanguage('python', 'c');
 ja.printProgrammerData();
-console.log(ja.languages)
+console.log(me.printProgrammerData());
+
+
+

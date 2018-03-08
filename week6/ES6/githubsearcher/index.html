@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GitHubSearcher</title>
+
+    <style>
+        div {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: fit-content;
+            float: left;
+            font-size:2em;
+        }
+
+        input {
+            float: right;
+            border-radius: 5px;
+            border: 1px solid rgb(156, 156, 156);
+            padding: 8px 0 8px 30px;
+            margin-top: 30px;
+            width: 200px;
+            font-size: 1em;
+
+        }
+
+        img {
+            float: left;
+            width: 33%;
+        }
+
+        nav {
+            overflow: hidden;
+        }
+
+        body {
+            background: rgb(216, 215, 215);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <h1 class="logo">GitHubSearcher</h1>
+            <input type="search" placeholder="Search for user">
+        </nav>
+        <p id="response"></p>
+    </div>
+    <script src="githubsearcher.js"></script>
+</body>
+
+</html>
