@@ -1,0 +1,63 @@
+
+
+fieldset {
+    width: 600px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    position: relative;
+    border: 2px solid grey;
+
+}
+
+select {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    margin: 10px 0;
+    background: rgb(228, 240, 228);
+    border: none;
+    border-radius: 3px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 5px 0;
+    background-color: rgb(17, 207, 17);
+    color: rgb(255, 208, 0);
+    margin: 10px 0px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    color: white;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+button:hover {
+    border: 2px solid rgb(34, 154, 194);
+    background: rgb(119, 247, 119);
+    color: black;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    margin: 10px 0;
+    background: rgb(228, 240, 228);
+    border: none;
+    border-radius: 3px;
+}
+
+#total-length {
+    position: absolute;
+    right: 25px;
+    bottom: -15px;
+}
+
+#main {
+    background: rgb(221, 219, 219);
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 5px;
+}
