@@ -1,35 +1,6 @@
 
 var dataModule = (function () {
 
-    // var allShows;
-
-    // //ajax 
-    // const allShowsUrl = 'http://api.tvmaze.com/shows';
-    // $(function () {
-    //     var request = $.get(allShowsUrl);
-    //     request.done(function (response) {
-    //         allShows = response;
-    //         //console.log(allShowsList);
-    //     });
-
-    // });
-
-    function searchForShow() {
-        $("#search").on('keyup', function () {
-
-
-            var searchValue = $("#search").val();
-            const showUrl = "http://api.tvmaze.com/search/shows?q=";
-            var searchShowUrl = showUrl + searchValue;
-
-            var request = $.get(searchShowUrl);
-            request.done(function (response) {
-                // console.log(response);
-            });
-        });
-    }
-
-
 
     class TVShows {
 
@@ -40,13 +11,11 @@ var dataModule = (function () {
     }
 
     function createTVShows(allShows) {
-        allShows.length = 12;
+        allShows.length = 50;
         //console.log(typeof allShows);
         let tvshows = new TVShows(allShows);
         return tvshows;
     }
-
-
 
 
     class Show {
@@ -59,20 +28,18 @@ var dataModule = (function () {
             this.casts = casts;
             this.details = details;
         }
+    }
 
-
-
-
+    function createShow() {
+        let singleShow = new Show(name, image, id, seasons,casts,details);
     }
 
 
-    //tv shows constructor
-
-    //show constructor
 
 
     return {
-        createTVShows
+        createTVShows,
+        createShow,
     }
 
 

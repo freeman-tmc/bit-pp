@@ -5,37 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bit Show</title>
+    <title>Show Info Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-        <style>
-            #content div {
-                float: left;
-                width: 33%;
-                text-align: center;
-                overflow: hidden;
-            }
-
-            h1 {
-                text-align: center;
-                margin-bottom: 50px;
-            }
-
-            ul {
-                position: absolute;
-                right: 10px;
-                top: 50px;
-                background: white;
-            }
-
-            footer {
-                clear: left;
-                background: grey;
-                height: 40px;;
-            }
-        </style>
 </head>
+
 <body>
     <nav class="navbar navbar-light bg-light justify-content-between">
         <a class="navbar-brand">Navbar</a>
@@ -43,28 +18,22 @@
             <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         </form>
     </nav>
+    <div id="show-info"></div>
 
-    <h1>Popular Shows</h1>
-
-    <ul id="search-result"> 
+    <ul id="season-list"> 
     
-    </ul>
-
-    <div id="content">
-
-
-    </div>
+        </ul>
+    
+    <footer class="flex">Copyright Bit Student 2018</footer>
 
 
-
-    <footer class="flex">Copyright  Bit Student 2018</footer>
 
 
     <script src="js/dataModule.js"></script>
     <script src="js/UIModule.js"></script>
     <script src="js/mainModule.js"></script>
     <!-- <script>
-        $(mainModule.init());
+        $(mainModule.initSinglePage());
     </script> -->
 </body>
 
