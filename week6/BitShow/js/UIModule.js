@@ -4,7 +4,8 @@ var UIModule = (function () {
     var printField = $('#content');
     var searchResultList = $('#search-result');
     var selectedElement = $();
-    let seasonList = $("#season-list");
+    var seasonList = $("#season-list");
+    var castList = $('#cast-list');
 
     //show allShow list in page
 
@@ -26,20 +27,31 @@ var UIModule = (function () {
     }
 
     function printSeasons(arr) {
-        let seasonList = empty();
+        seasonList.empty();
         arr.forEach(function (el){
-            let seasonDiv = `<li>${el.premierDate}-${el.endDate}</li>`;
+            let seasonDiv = `<li>${el[0]}-${el[1]}</li>`;
             seasonList.append(seasonDiv);
         })
     }
 
+    function printCast(arr) {
+        castList.empty();
+        arr.forEach(function (el){
+            let seasonDiv = `<li>${el}</li>`;
+            castList.append(seasonDiv);
+        })
+    }
+
+    // function printData(selector, data, type of data) {
 
 
 
 
     return {
         printAllShows,
-        printSearchResults
+        printSearchResults,
+        printSeasons,
+        printCast
     }
 
 

@@ -11,7 +11,7 @@ var dataModule = (function () {
     }
 
     function createTVShows(allShows) {
-        allShows.length = 50;
+        allShows.length = 12;
         //console.log(typeof allShows);
         let tvshows = new TVShows(allShows);
         return tvshows;
