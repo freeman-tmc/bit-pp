@@ -3,15 +3,16 @@ var UIModule = (function () {
     var searchField = $('#search');
     var printField = $('#content');
     var searchResultList = $('#search-result');
-    var selectedElement = $();
     var seasonList = $("#season-list");
     var castList = $('#cast-list');
+    var infoPageImgBox = $('#show-image');
+    var showInfoBox = $('#show-info');
 
     //show allShow list in page
 
     function printAllShows(arr) {
         arr.forEach(function (el) {
-            let printDiv = `<div>
+            let printDiv = `<div class="show" value="${el.id}">
         <img src="${el.image.medium}">
         <p>${el.name}</p></div>`;
             printField.append(printDiv);
@@ -42,6 +43,21 @@ var UIModule = (function () {
         })
     }
 
+    function printInfoPageImg(urlArr) {
+        urlArr.forEach(function (el) {
+            let printDiv = `<img src="${el}">`;
+            infoPageImgBox.append(printDiv);
+        });
+    }
+
+
+    function printShowInfo(arr) {
+        arr.forEach(function (el) {
+            let printDiv = `<p>${el}</p>`;
+            showInfoBox.append(printDiv);
+        });
+    }
+
     // function printData(selector, data, type of data) {
 
 
@@ -51,7 +67,9 @@ var UIModule = (function () {
         printAllShows,
         printSearchResults,
         printSeasons,
-        printCast
+        printCast,
+        printInfoPageImg,
+        printShowInfo
     }
 
 

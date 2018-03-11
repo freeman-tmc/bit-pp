@@ -11,6 +11,7 @@ var mainModule = (function () {
                 console.log(allShows);
                 let show = dataModule.createTVShows(allShows);
                 UIModule.printAllShows(show.shows);
+                attachImageListeners();
             });
 
         });
@@ -30,11 +31,19 @@ var mainModule = (function () {
             });
         });
 
-
-        // response for seasons
+        // listeners for search list items
         function attachListeners() {
             $("li").on('click', function () {
-                let showID = $(this).attr("value");
+                let showID = $(this).attr('value');
+                sessionStorage.setItem('tvShowID', showID);
+                open('infopage.html');
+            });
+
+        }
+        // listeners for show images
+        function attachImageListeners() {
+            $(".show").on('click', function () {
+                let showID = $(this).attr('value');
                 sessionStorage.setItem('tvShowID', showID);
                 open('infopage.html');
             });
@@ -47,6 +56,8 @@ var mainModule = (function () {
         let seasons = [];
         let cast = [];
         let image = [];
+        let info = [];
+
         $(function () {
             let showID = sessionStorage.getItem('tvShowID');
             let showUrl = `http://api.tvmaze.com/shows/${showID}/seasons`
@@ -56,13 +67,14 @@ var mainModule = (function () {
                 image.push(showInfo[0].image.original);
                 showInfo.forEach(function (el) {
                     seasons.push([el.premiereDate, el.endDate]);
-                    //seasons.push(el.endDate);
                 });
                 console.log(showInfo);
                 console.log(seasons);
                 console.log(image);
                 UIModule.printSeasons(seasons);
+                UIModule.printInfoPageImg(image);
             });
+            
         });
 
         $(function () {
@@ -78,8 +90,26 @@ var mainModule = (function () {
                 console.log(cast);
                 UIModule.printCast(cast);
             });
+            
         });
-        
+
+        $(function () {
+            let showID = sessionStorage.getItem('tvShowID');
+            let showUrl = `http://api.tvmaze.com/shows/${showID}`
+            let request = $.get(showUrl);
+            request.done(function (response) {
+                let showInfo = response;
+                console.log(showInfo);
+                info.push(showInfo.summary);
+                // showInfo.forEach(function (el) {
+                //     info.push(el.person.name);
+                // });
+                UIModule.printShowInfo(info);
+            });
+            
+        });
+
+        console.log(location.href.slice(location.href.indexOf('?') + 1));
     }
     //interface for index and infopage
     return {
