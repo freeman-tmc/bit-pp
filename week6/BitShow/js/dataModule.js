@@ -12,7 +12,6 @@ var dataModule = (function () {
 
     function createTVShows(allShows) {
         allShows.length = 12;
-        //console.log(typeof allShows);
         let tvshows = new TVShows(allShows);
         return tvshows;
     }
@@ -20,21 +19,20 @@ var dataModule = (function () {
 
     class Show {
 
-        constructor(name, image, id, seasons,casts,details) {
+        constructor(name, image, showID, seasons, cast, info) {
             this.name = name;
             this.image = image;
-            this.id = id;
-            this.season = season;
-            this.casts = casts;
-            this.details = details;
+            this.showID = showID;
+            this.seasons = seasons;
+            this.cast = cast;
+            this.info = info;
         }
     }
 
-    function createShow() {
-        let singleShow = new Show(name, image, id, seasons,casts,details);
+    function createShow(name, image, showID, seasons, cast, info) {
+        let singleShow = new Show(name, image, showID, seasons, cast, info);
+        return singleShow;
     }
-
-
 
 
     return {

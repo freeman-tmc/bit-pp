@@ -18,10 +18,8 @@ var mainModule = (function () {
 
         //printing search results
         $("#search").on('keyup', function () {
-
             var searchValue = $("#search").val();
             let showUrl = `http://api.tvmaze.com/search/shows?q=${searchValue}`;
-
             var request = $.get(showUrl);
             request.done(function (response) {
                 response.length = 10;
@@ -53,64 +51,73 @@ var mainModule = (function () {
 
     // initSinglePage, handler for info page
     function initSinglePage() {
+
         let seasons = [];
         let cast = [];
         let image = [];
         let info = [];
+        let name = [];
 
+        const showID = sessionStorage.getItem('tvShowID');
+        const nameImgInfoUrl = `http://api.tvmaze.com/shows/${showID}`;
+        const seasonsUrl = `http://api.tvmaze.com/shows/${showID}/seasons`;
+        const castUrl = `http://api.tvmaze.com/shows/${showID}/cast`;
+
+        //ajax function
+        function getShowData(url) {
+            let request = $.get(url);
+            return request;
+        }
+
+        //seasons data
         $(function () {
-            let showID = sessionStorage.getItem('tvShowID');
-            let showUrl = `http://api.tvmaze.com/shows/${showID}/seasons`
-            let request = $.get(showUrl);
-            request.done(function (response) {
-                let showInfo = response;
-                image.push(showInfo[0].image.original);
-                showInfo.forEach(function (el) {
+            let showInfo = getShowData(seasonsUrl);
+            showInfo.done(function (response) {
+                response.forEach(function (el) {
                     seasons.push([el.premiereDate, el.endDate]);
                 });
-                console.log(showInfo);
-                console.log(seasons);
-                console.log(image);
-                UIModule.printSeasons(seasons);
-                UIModule.printInfoPageImg(image);
             });
-            
         });
 
+        //image, name  data
         $(function () {
-            let showID = sessionStorage.getItem('tvShowID');
-            let showUrl = `http://api.tvmaze.com/shows/${showID}/cast`
-            let request = $.get(showUrl);
-            request.done(function (response) {
-                let showInfo = response;
-                showInfo.forEach(function (el) {
+            let showInfo = getShowData(nameImgInfoUrl);
+            showInfo.done(function (response) {
+                image.push(response.image.original);
+                name.push(response.name);
+            });
+        });
+
+        //info data
+        $(function () {
+            let showInfo = getShowData(nameImgInfoUrl);
+            showInfo.done(function (response) {
+                info.push(response.summary);
+            });
+        });
+
+        //cast data
+        $(function () {
+            let showInfo = getShowData(castUrl);
+            showInfo.done(function (response) {
+                response.forEach(function (el) {
                     cast.push(el.person.name);
                 });
-                //console.log(showInfo);
-                console.log(cast);
-                UIModule.printCast(cast);
             });
-            
         });
 
-        $(function () {
-            let showID = sessionStorage.getItem('tvShowID');
-            let showUrl = `http://api.tvmaze.com/shows/${showID}`
-            let request = $.get(showUrl);
-            request.done(function (response) {
-                let showInfo = response;
-                console.log(showInfo);
-                info.push(showInfo.summary);
-                // showInfo.forEach(function (el) {
-                //     info.push(el.person.name);
-                // });
-                UIModule.printShowInfo(info);
-            });
-            
+        //creating single show object
+        //printing data
+        $(document).ajaxStop(function () {
+            var singleShow = dataModule.createShow(name, image, showID, seasons, cast, info);
+            UIModule.printSeasons(singleShow.seasons);
+            UIModule.printInfoPageImg(singleShow.image);
+            UIModule.printShowInfo(singleShow.info);
+            UIModule.printCast(singleShow.cast);
         });
 
-        console.log(location.href.slice(location.href.indexOf('?') + 1));
     }
+
     //interface for index and infopage
     return {
         init,
