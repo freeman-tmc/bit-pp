@@ -3,7 +3,7 @@ import { createTVShows, createShow } from './dataModule.js';
 import { printAllShows, printSearchResults, printSeasons, printCast, printInfoPageImg, printShowInfo, searchField } from './UIModule.js';
 
 // init, handler function for landing page
-function init() {
+export function init() {
 
     //collecting shows object from server
     const allShowsUrl = 'http://api.tvmaze.com/shows';
@@ -56,7 +56,7 @@ function init() {
 }
 
 // initSinglePage, handler for info page
-function initSinglePage() {
+export function initSinglePage() {
 
     let seasons = [];
     let cast = [];
@@ -115,17 +115,17 @@ function initSinglePage() {
     //creating single show object
     //printing data
     $(document).ajaxStop(function () {
-        var singleShow = dataModule.createShow(name, image, showID, seasons, cast, info);
-        UIModule.printSeasons(singleShow.seasons);
-        UIModule.printInfoPageImg(singleShow.image);
-        UIModule.printShowInfo(singleShow.info);
-        UIModule.printCast(singleShow.cast);
+        var singleShow = createShow(name, image, showID, seasons, cast, info);
+        printSeasons(singleShow.seasons);
+        printInfoPageImg(singleShow.image);
+        printShowInfo(singleShow.info);
+        printCast(singleShow.cast);
     });
 
 
 }
 
-init();
+
 
 
 
