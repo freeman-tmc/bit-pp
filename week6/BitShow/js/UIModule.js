@@ -1,4 +1,3 @@
-var UIModule = (function () {
 
     //print containers
     var searchField = $('#search');
@@ -56,13 +55,13 @@ var UIModule = (function () {
         });
     }
 
-    return {
+    export {
         printAllShows,
         printSearchResults,
         printSeasons,
         printCast,
         printInfoPageImg,
         printShowInfo,
+        searchField
     }
 
-})();
