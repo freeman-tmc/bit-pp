@@ -1,12 +1,13 @@
 
     //print containers
-    var searchField = $('#search');
-    var printField = $('#content');
-    var searchResultList = $('#search-result');
-    var seasonList = $("#season-list");
-    var castList = $('#cast-list');
-    var infoPageImgBox = $('#show-image');
-    var showInfoBox = $('#show-info');
+    const searchField = $('#search');
+    const printField = $('#content');
+    const searchResultList = $('#search-result');
+    const seasonList = $("#season-list");
+    const castList = $('#cast-list');
+    const infoPageImgBox = $('#show-image');
+    const showInfoBox = $('#show-info');
+    const seasonsNum = $('#seasons-num');
 
     function printAllShows(arr) {
         arr.forEach(function (el) {
@@ -55,6 +56,11 @@
         });
     }
 
+    function printSeasonsNum(arr) {
+            let printDiv = arr.length;
+            seasonsNum.append(printDiv);
+    }
+
     export {
         printAllShows,
         printSearchResults,
@@ -62,6 +68,7 @@
         printCast,
         printInfoPageImg,
         printShowInfo,
-        searchField
+        searchField,
+        printSeasonsNum
     }
 

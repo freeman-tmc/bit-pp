@@ -1,6 +1,6 @@
 
 import { createTVShows, createShow } from './dataModule.js';
-import { printAllShows, printSearchResults, printSeasons, printCast, printInfoPageImg, printShowInfo, searchField } from './UIModule.js';
+import { printAllShows, printSearchResults, printSeasons, printCast, printInfoPageImg, printShowInfo, searchField, printSeasonsNum } from './UIModule.js';
 
 // init, handler function for landing page
 export function init() {
@@ -20,8 +20,8 @@ export function init() {
     });
 
     //printing search results
-    $("#search").on('keyup', function () {
-        var searchValue = searchField.val();
+    searchField.on('keyup', function () {
+        let searchValue = searchField.val();
         let showUrl = `http://api.tvmaze.com/search/shows?q=${searchValue}`;
         fetch(showUrl)
             .then(response => {
@@ -42,8 +42,8 @@ export function init() {
             sessionStorage.setItem('tvShowID', showID);
             open('infopage.html');
         });
-
     }
+
     // listeners for show images
     function attachImageListeners() {
         $(".show").on('click', function () {
@@ -51,8 +51,8 @@ export function init() {
             sessionStorage.setItem('tvShowID', showID);
             open('infopage.html');
         });
-
     }
+
 }
 
 // initSinglePage, handler for info page
@@ -69,64 +69,51 @@ export function initSinglePage() {
     const seasonsUrl = `http://api.tvmaze.com/shows/${showID}/seasons`;
     const castUrl = `http://api.tvmaze.com/shows/${showID}/cast`;
 
-    //ajax function
-    function getShowData(url) {
-        let request = $.get(url);
-        return request;
+    //fetch data function
+    function fetchData(url) {
+        return fetch(url)
+            .then(data => {
+                return data.json();
+            });
     }
 
-    //seasons data
-    $(function () {
-        let showInfo = getShowData(seasonsUrl);
-        showInfo.done(function (response) {
-            response.forEach(function (el) {
+    //fetch seasons data
+    const seasonsData = fetchData(seasonsUrl)
+        .then(data => {
+            data.forEach(function (el) {
                 seasons.push([el.premiereDate, el.endDate]);
             });
         });
-    });
 
-    //image, name  data
-    $(function () {
-        let showInfo = getShowData(nameImgInfoUrl);
-        showInfo.done(function (response) {
-            image.push(response.image.original);
-            name.push(response.name);
+    //fetch image, name, info data
+    const imgNameInfoData = fetchData(nameImgInfoUrl)
+        .then(data => {
+            image.push(data.image.original);
+            name.push(data.name);
+            info.push(data.summary);
         });
-    });
 
-    //info data
-    $(function () {
-        let showInfo = getShowData(nameImgInfoUrl);
-        showInfo.done(function (response) {
-            info.push(response.summary);
-        });
-    });
-
-    //cast data
-    $(function () {
-        let showInfo = getShowData(castUrl);
-        showInfo.done(function (response) {
-            response.forEach(function (el) {
+    //fetch cast data
+    const castData = fetchData(castUrl)
+        .then(data => {
+            data.forEach(function (el) {
                 cast.push(el.person.name);
             });
         });
-    });
 
     //creating single show object
     //printing data
-    $(document).ajaxStop(function () {
-        var singleShow = createShow(name, image, showID, seasons, cast, info);
-        printSeasons(singleShow.seasons);
-        printInfoPageImg(singleShow.image);
-        printShowInfo(singleShow.info);
-        printCast(singleShow.cast);
-    });
-
+    Promise.all([seasonsData, imgNameInfoData, castData])
+        .then(values => {
+            let singleShow = createShow(name, image, showID, seasons, cast, info);
+            printSeasons(singleShow.seasons);
+            printInfoPageImg(singleShow.image);
+            printShowInfo(singleShow.info);
+            printCast(singleShow.cast);
+            printSeasonsNum(singleShow.seasons);
+        });
 
 }
-
-
-
 
 
 
